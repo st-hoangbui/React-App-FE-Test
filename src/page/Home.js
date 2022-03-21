@@ -8,6 +8,7 @@ import Blogs from '../component/Blogs';
 import Pagination from '../component/Pagination';
 import SortDropdown from '../component/SortPage';
 import { useHistory } from 'react-router-dom';
+import debounce from 'lodash.debounce';
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
@@ -47,13 +48,13 @@ export default function Home() {
 
   const prevPage = () => setCurrentPage(currentPage - 1);
 
-  const searchText = value => {
+  const debounceFuncSearch = debounce((value) => {
     setSearchTerm(value);
     history.push({
       pathname: '/blogs',
       search: `?search=${value}`
     });
-  };
+  }, 500);
 
   const handleSelect = value => {
     setTypeFilter(value);
@@ -85,7 +86,7 @@ export default function Home() {
         <h1 className="my-5 text-primary text-center">React List Blogs</h1>
         <div className="d-flex justify-content-between mb-4">
           <SortDropdown handleSelect={handleSelect} typeFilter={typeFilter} />
-          <SearchPage searchText={searchText} />
+          <SearchPage searchText={debounceFuncSearch} />
         </div>
         <Blogs blogs={currentBlogs} loading={loading} />
         <Pagination
