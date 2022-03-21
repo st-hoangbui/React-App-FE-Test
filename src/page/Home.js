@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
+import Container from 'react-bootstrap/Container';
 import { getBlogs } from '../redux-toolkit/blogsSlice';
 import SearchPage from '../component/SearchPage';
 import Blogs from '../component/Blogs';
@@ -9,6 +10,7 @@ import Pagination from '../component/Pagination';
 import SortDropdown from '../component/SortPage';
 import { useHistory } from 'react-router-dom';
 import debounce from 'lodash.debounce';
+import { Col, Row } from 'react-bootstrap';
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
@@ -48,7 +50,7 @@ export default function Home() {
 
   const prevPage = () => setCurrentPage(currentPage - 1);
 
-  const debounceFuncSearch = debounce((value) => {
+  const debounceFuncSearch = debounce(value => {
     setSearchTerm(value);
     history.push({
       pathname: '/blogs',
@@ -82,12 +84,16 @@ export default function Home() {
   }, []);
   return (
     <>
-      <div className="container">
+      <Container fluid>
         <h1 className="my-5 text-primary text-center">React List Blogs</h1>
-        <div className="d-flex justify-content-between mb-4">
-          <SortDropdown handleSelect={handleSelect} typeFilter={typeFilter} />
-          <SearchPage searchText={debounceFuncSearch} />
-        </div>
+        <Row className="justify-content-md-center">
+          <Col>
+            <SortDropdown handleSelect={handleSelect} typeFilter={typeFilter} />
+          </Col>
+          <Col>
+            <SearchPage searchText={debounceFuncSearch} />
+          </Col>
+        </Row>
         <Blogs blogs={currentBlogs} loading={loading} />
         <Pagination
           blogsPerPage={blogsPerPage}
@@ -98,7 +104,7 @@ export default function Home() {
           currentPage={currentPage}
           history={history}
         />
-      </div>
+      </Container>
     </>
   );
 }

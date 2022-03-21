@@ -1,26 +1,16 @@
 import React from 'react';
-import { MDBCol, MDBIcon } from 'mdbreact';
+import { Form, FormControl, FormGroup } from 'react-bootstrap';
 
 const SearchPage = props => {
   const { searchText } = props;
 
   return (
-    <MDBCol md="6">
-      <div className="input-group md-form form-sm form-1 pl-0">
-        <div className="input-group-prepend">
-          <span className="input-group-text purple lighten-3" id="basic-text1">
-            <MDBIcon className="text-white" icon="search" />
-          </span>
-        </div>
-        <input
-          className="form-control my-0 py-1"
-          type="text"
-          placeholder="Search..."
-          aria-label="Search"
-          onChange={e => searchText(e.target.value)}
-        />
-      </div>
-    </MDBCol>
+    <Form>
+      <FormGroup>
+        <FormControl type="search" placeholder="Enter search" onChange={e => searchText(e.target.value)} />
+        <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
+      </FormGroup>
+    </Form>
   );
 };
 
